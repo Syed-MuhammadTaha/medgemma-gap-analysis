@@ -1,0 +1,31 @@
+[project]
+name = "pathology-blind-spot"
+version = "0.1.0"
+description = "Evaluating clinically critical hallucinations in pathology report generation"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numpy",
+    "openslide-bin",
+    "openslide-python",
+    "pillow",
+    "rouge-score>=0.1.2",
+    "sacrebleu>=2.6.0",
+]
+
+[project.optional-dependencies]
+# model runs (generate_reports.py) on an NVIDIA GPU: uv sync --extra gpu
+gpu = [
+    "torch>=2.7",  # 2.7+ with CUDA 12.8 supports RTX 50-series (Blackwell)
+    "transformers>=4.50",
+    "accelerate",
+    "bitsandbytes; sys_platform != 'darwin'",
+]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform != 'darwin'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
