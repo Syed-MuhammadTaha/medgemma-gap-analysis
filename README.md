@@ -1,37 +1,64 @@
-> **A note on my background.** I am not a histopathologist. I am an ML/DL researcher who worked on report generation from whole-slide images in earlier research, and that is where the idea for this project comes from: the observation that reports can score well on text metrics while getting clinical facts wrong is my own, from that work. The pathology details in this write-up, such as which facts matter clinically, how they are graded and what the terms mean, were worked out with the help of an AI assistant and checked against published sources where I could. They have not been reviewed by a pathologist.
+## The blind spot
+
+During my seventh semester, I spent a few weeks working in my LLM instructor's lab under his supervision. My task was to map the landscape of whole-slide pathology imaging and survey the literature for gaps. Reading through recent MICCAI papers, I noticed a pattern: the models kept getting better at identifying findings and generating reports, but the metric used to score those reports itself was flawed. It measured how closely the generated text matched the pathologist's wording, not whether the report was correct, so hallucinations and factual errors went unnoticed in a domain where a single wrong word can change a patient's treatment.
+
+My time at the lab ended there, and I never got to work on the idea. This challenge gave me the opportunity to pick it up where I left off.
+
+> **A note on my background.** I am not a histopathologist. I am an ML/DL researcher who worked on report generation from whole-slide images in earlier research, and that is where the idea for this project comes from. The pathology details in this write-up, such as which facts matter clinically, how they are graded in the clinical domain and what the terms mean, were worked out with the help of an AI assistant and checked against published sources where I could.
+
+
 
 ## Summary
 
 Given tissue from a breast cancer slide, MedGemma writes a confident pathology report and fills in facts it has no way of knowing. The metric its model card uses for these reports, ROUGE, can't tell.
 
-- **The model gets critical facts wrong.** When MedGemma states a fact that decides treatment, it contradicts the pathologist 41 to 67% of the time. It states a margin status in 15 of 53 cases, although one slide can't establish it, and 10 of those 15 are wrong (Exp 1).
-- **The metric can't see it.** In pathologists' own reports, ROUGE-L scores a report with one flipped fact above a correct rewording in 92 to 100% of cases (Exp 2a).
+- **The model gets critical facts wrong.** When MedGemma states a fact that decides treatment, it contradicts the pathologist 41 to 67% of the time.
+- **The metric can't see it.** I took real pathologist reports and made two copies of each. One reworded but still correct, one with a single fact flipped. ROUGE-L gave the wrong copy the higher score in 92 to 100% of cases (Exp 2a).
 - **Fixing the errors doesn't register.** Correcting every contradicted fact in MedGemma's reports moves ROUGE-L by +0.006 on average, and in 11 of 37 reports the corrected version scores lower (Exp 2b).
 
-## Model
 
-I evaluate MedGemma 1.5 4B (`google/medgemma-1.5-4b-it`).
+
+## Model Choice
+
+I evaluate MedGemma 1.5 4B (`[google/medgemma-1.5-4b-it](https://huggingface.co/google/medgemma-1.5-4b-it)`), used as released. The weights are not included here because they are gated behind Google's terms of use; the link above is the exact model.
 
 Why MedGemma:
 
 - It is built on Gemma 3, Google's open frontier model family, and adapted to medical text and images. So it shows how a current frontier model behaves once it is specialised for a domain.
-- It has 4B parameters, inside the 0.6B to 6B range.
 - Its image encoder saw histopathology, microscope images of tissue, during training. If it fails on tissue, it isn't because it has never seen tissue.
 - Its model card reports one number for whole-slide pathology reports. That number is WSI-Path, 49.4, up from 2.2 for MedGemma 1, and it is scored with ROUGE only. Chest X-ray reports on the same card get RadGraph F1, a metric built on clinical facts. So the model's headline pathology result comes from exactly the metric I test in Exp 2. A whole-slide image (WSI) is a gigapixel scan of one glass tissue slide.
-- It reads a whole slide as a set of patches. The technical report describes the pipeline: 896 px tissue patches on a grid, up to 126 per slide, kept in spatial order, at 5x, 10x or 20x magnification (5x is the most zoomed out). I copy that pipeline, so the test is fair to the model.
+
+
+
+### How MedGemma is built
+
+![How Gemma 3 became MedGemma, and how a slide flows through it](assets/medgemma_overview.png)
+
+*Figure 1. MedGemma: how it was adapted from Gemma 3 (A) and how one slide flows through it in this project (B).*
+
+MedGemma keeps Gemma 3's architecture; only the training changed (A). At inference (B), each patch is encoded on its own, so the language model is the only part that combines evidence across patches. It is also where the language prior that fills the report template lives, which matters for Exp 1.
+
+
 
 ## Data
+
 
 |         | Source                                                                                                                           | License     |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | Reports | TCGA-Reports (Kefeli et al. 2024), 9,523 OCR'd pathology reports from The Cancer Genome Atlas (TCGA), a public US cancer dataset | CC BY 4.0   |
 | Slides  | TCGA-BRCA (the breast cancer part of TCGA) diagnostic slides, NCI Genomic Data Commons                                           | Open access |
 
-I kept one organ, breast, so the same six facts apply to every case. Of 1,062 breast cancer patients with an open slide, 53 have a report that states all six facts, is a reasonable length and has little OCR noise. The reference text is the report's final diagnosis section, which is what WSI-Path scores. 33 of the 53 reports have a detectable section; the other 20 use the full report.
+
+*Table 1. Data sources.*
+
+I kept one organ, breast, so the same six facts apply to every case. Of 1,062 breast cancer patients with an open slide, 53 have a report that states all six facts (Table 2), is a reasonable length and has little OCR noise. The reference text is the report's final diagnosis section, which is what WSI-Path scores. 33 of the 53 reports have a detectable section; the other 20 use the full report.
 
 For all 53 cases I cut patches the way MedGemma's technical report describes: 896 px patches on a grid over the tissue, randomly subsampled to a cap and kept in spatial order. I use 5x, one of Google's three magnifications, because each patch then covers about 1.8 mm of tissue, so the cap covers most of a slide. I cut up to 64 patches per slide (Google's cap is 126). Every experiment uses the same 53 cases.
 
+
+
 ## What counts as an error
+
 
 | Fact                          | What it means                                                                                  | Example flip         | Determinable from one slide? |
 | ----------------------------- | ---------------------------------------------------------------------------------------------- | -------------------- | ---------------------------- |
@@ -42,31 +69,37 @@ For all 53 cases I cut patches the way MedGemma's technical report describes: 89
 | Grade                         | How abnormal the cancer cells look, from 1 (close to normal) to 3                              | 2 to 3               | Yes                          |
 | Laterality                    | Left or right breast                                                                           | left to right        | No                           |
 
+
+*Table 2. The six treatment-critical facts checked in every report.*
+
 The last column matters for Exp 1. Laterality isn't in the tissue at all, lymph nodes are on other slides, and margin status needs every edge of the removed tissue, not one slide. So any value the model states for these three is invented.
 
 ## Experiment 1: MedGemma states facts it can't know
 
+
+
 ### Setup
 
-I fed each slide to MedGemma the way Google's technical report describes its own whole-slide pipeline. A tissue mask finds the tissue, a grid of 896 px patches is laid over it, the patches are randomly subsampled to a cap, and they stay in spatial order, row by row. Google picks 5x, 10x or 20x per slide. I use 5x for every slide, where one patch covers about 1.8 mm of tissue, so a few dozen patches span most of a slide. H&E is the standard pink-and-purple stain used on almost every tissue slide. All patches of a case go into one prompt with the instruction "These are tissue patches from one H&E slide of a breast surgical specimen, in spatial order. Write the FINAL DIAGNOSIS section of the pathology report." Decoding is greedy, up to 400 new tokens.
+The pre-processing pipeline is mentioned under Data where I mention in detail how the patching happens. All patches of a case go into one prompt with the instruction "These are tissue patches from one H&E slide of a breast surgical specimen, in spatial order. Write the FINAL DIAGNOSIS section of the pathology report." Decoding is greedy, up to 400 new tokens.
 
 I ran inference on my own RTX 5070 (12 GB) in bf16, the model's native precision. My first run used 64 patches per slide and ran out of GPU memory. MedGemma's image encoder (SigLIP) processes every image in the prompt as one batch, and its MLP activation of shape (images, 4096, 4304) alone needs about 2 GB at 64 images. Two changes made it fit. I encode the images 4 at a time and concatenate the results; SigLIP encodes each image independently, so the language model receives exactly the same image tokens. And I cap each slide at 32 patches, picked evenly across the 64 so they still span the whole slide. That is a quarter of Google's cap of 126. Slides with little tissue have fewer patches: 38 of the 53 cases used 32, the rest 6 to 31.
 
 ### Scoring
 
-Extracting facts from MedGemma's free text with keyword rules would be unreliable: its reports loop, bury stages inside lists and phrase things loosely. So the facts were annotated by reading. For every case I recorded, per fact, what the pathologist reported, what MedGemma stated, and a verdict, together with MedGemma's exact words as evidence (`results/04_annotations.csv`, 318 fact rows). The first pass was done with Claude Opus reading each generated report next to the reference; a script checks that every quoted phrase appears verbatim in MedGemma's output, and I spot-checked a sample of cases against the quotes (TODO: check ~10 cases and state the number here). Other failures seen while reading are in the same table, as rows marked "observed", also with quotes.
-
-Verdicts: "matches" and "contradicts" compare MedGemma's statement with the pathologist's report. "Not stated" means MedGemma said nothing about the fact. "Invasive carcinoma" without a type counts as not stating the diagnosis. Grade counts only when stated for the invasive tumour (grade 1 to 3, or well, moderately or poorly differentiated), not for DCIS (pre-invasive cancer still confined to the ducts) or for descriptions of individual nuclei.
+Extracting facts from MedGemma's free text with keyword rules would be unreliable. So the facts were annotated by reading. For every case I recorded, per fact, what the pathologist reported, what MedGemma stated, and a verdict, together with MedGemma's exact words as evidence (`results/04_annotations.csv`, 318 fact rows). The first pass was done with Claude Opus reading each generated report next to the reference and I then read 10 cases against the quotes to cross-check and they looked fine.
 
 ### Results
 
 ![What MedGemma says about six treatment-critical facts](results/04_fact_accuracy.png)
 
-When MedGemma commits to a fact that decides treatment, it is wrong 41 to 67% of the time. The worst is margins: it states a margin status in 15 cases, although one slide can't establish the margin status of a whole specimen, and 10 of those 15 contradict the pathologist. Nearly always the invented margin is "tumor present at the inked surgical margin". Surgeons ink the edge of the removed tissue, so tumour at the ink means cancer was left in the patient, which would send them back to surgery.
+*Figure 2. Each bar is one fact across the 53 cases. Blue: MedGemma states it and matches the pathologist. Red: states it and contradicts the pathologist. Gray: doesn't state it. Light gray: the pathologist's report has no clear answer.*
+
+When MedGemma states one of these facts, it is wrong 41 to 67% of the time. Margins are the worst. It gives a margin status in 15 cases, although one slide can't show it, and 10 of those are wrong. Most of them say the tumour reaches the edge of the removed tissue, which would mean cancer was left behind and the patient needs another operation.
 
 ### What else MedGemma does
 
 Reading the reports also shows failure modes that any ML reader will recognise.
+
 
 | Failure mode                                | Cases | What it looks like here                                                                                                                                   |
 | ------------------------------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -78,6 +111,9 @@ Reading the reports also shows failure modes that any ML reader will recognise.
 | Claims inputs it never had                  | 4     | "based on clinical information provided", when the prompt had none                                                                                        |
 | Leaks text from a neighbouring domain       | 4     | A mammography score in a pathology report: "BI-RADS Category 5:"                                                                                          |
 
+
+*Table 3. Other failure modes found while reading MedGemma's 53 reports.*
+
 Each case and its quote is listed in `results/04_annotations.csv` (rows marked "observed"); repetition loops are counted from the raw outputs.
 
 Together with the results above, this points to one blind spot. MedGemma writes the report its language prior expects for a breast cancer case, and fills every section of that template whether or not the image supports it. The critical facts are exactly where this shows up, and they are one or two words long.
@@ -88,7 +124,7 @@ Exp 1 shows MedGemma getting treatment-critical facts wrong, yet its model card 
 
 ### 2a. ROUGE prefers a one-fact flip over a correct rewording
 
-I took each of the 53 reference reports and made two kinds of variants.
+I took each of the 53 reference reports from the dataset (`data/00_cases.csv`) and made two kinds of variants.
 
 - Correct rewordings. A light one changes only spelling and format ("tumor" to "tumour", "one" to "1"). A fuller one also swaps pathology synonyms ("infiltrating" for "invasive", "not seen" for "not identified").
 - Wrong reports. Each one flips a single fact from the error table, everywhere it appears.
@@ -96,6 +132,7 @@ I took each of the 53 reference reports and made two kinds of variants.
 Then I scored every variant against the original with ROUGE-L (BLEU as a side check).
 
 An unchanged report scores ROUGE-L 1.000 against itself. The table shows the score after each kind of change. "Reports affected" is how many of the 53 reports state that fact in a form the rules can flip, which is why it varies.
+
 
 | Variant                         | Correct? | Reports affected | Phrases changed (avg) | ROUGE-L | Wrong report beats a correct rewording |
 | ------------------------------- | -------- | ---------------- | --------------------- | ------- | -------------------------------------- |
@@ -108,7 +145,12 @@ An unchanged report scores ROUGE-L 1.000 against itself. The table shows the sco
 | Ductal/lobular flipped          | No       | 52               | 3.6                   | 0.989   | 94%                                    |
 | Left/right flipped              | No       | 53               | 4.9                   | 0.984   | 92%                                    |
 
+
+*Table 4. ROUGE-L after each kind of change to the 53 pathologist reports. An unchanged report scores 1.000.*
+
 ![ROUGE-L for correct rewordings vs wrong reports](results/02_metric_paradox.png)
+
+*Figure 3. ROUGE-L for correct rewordings (blue) and one-fact flips (orange). Each dot is one report.*
 
 The "phrases changed" column explains the result. ROUGE-L drops in proportion to how many words change, not to what they mean. A flip touches one or two words, so it barely moves the score. A correct rewording touches ten or more, so it loses more. Writing "tumour" instead of "tumor" costs more ROUGE-L than calling negative margins positive. Every flipped fact scores higher on average than either correct rewording, and in 92 to 100% of same-report pairs ROUGE-L prefers the wrong report.
 
@@ -116,11 +158,15 @@ The "phrases changed" column explains the result. ROUGE-L drops in proportion to
 
 For each of the 52 facts MedGemma contradicted in Exp 1 (in 37 reports), I made the smallest edit that makes the claim match the pathologist, for example "N1" to "N0" or "moderately" to "poorly differentiated", everywhere the claim appears. The edits are listed in `results/05_corrections.csv`. Then I scored MedGemma's report as written and the corrected report against the pathologist's report.
 
+
 |                                      | ROUGE-L | BLEU   |
 | ------------------------------------ | ------- | ------ |
 | MedGemma as written                  | 0.086   | 0.003  |
 | After fixing every contradicted fact | 0.092   | 0.003  |
 | Change                               | +0.006  | +0.000 |
+
+
+*Table 5. Mean scores of MedGemma's 37 reports with a contradicted fact, before and after fixing those facts.*
 
 Fixing every treatment-critical error raises ROUGE-L by 0.006 on average. In 11 of the 37 reports the corrected version scores lower than the wrong one. For scale, MedGemma's reports range from 0.030 to 0.175 ROUGE-L among themselves, so the difference between a report that sends a patient back to surgery and one that doesn't is lost in the noise of wording.
 
@@ -132,38 +178,55 @@ These ROUGE-L values are much lower than the 49.4 on Google's WSI-Path benchmark
 
 ## Path forward
 
-The experiments point to two problems: the model states facts its input doesn't support, and the metric used to score it can't tell. Fixing the model without fixing the metric means nobody would see the improvement, so the metric comes first.
+Two things need fixing: the model states facts its input can't support, and the metric can't tell. I propose one change at each stage of building the model, all cheap enough for a 4B model: what it is pre-trained on (a), how it is post-trained (b), and how it is evaluated (c). The evaluation change matters most, because without it the gains from a and b would not show up in any score.
 
-**1. Score WSI reports on facts, not words.** Pathologists already fill in a structured checklist for each cancer, such as the CAP synoptic report: diagnosis, grade, margins, nodes and so on. A WSI report metric should extract those fields from the generated and reference reports, with an LLM or a trained tagger, and score them field by field, like RadGraph F1 does for chest X-rays. It should report three numbers, not one: accuracy on facts the input can support, how often the model states facts the input can't support, and how often it correctly says "not assessable". Exp 2a then becomes a unit test for any proposed metric: it must score a one-fact flip below a harmless rewording.
+![Three proposed changes across pre-training, post-training and evaluation](assets/path_forward.png)
 
-**2. Stop training the model to invent.** Slide-to-report training pairs a slide, or a sample of its patches, with a report written about the whole case, including lymph nodes on other slides and clinical history. The target contains information the input doesn't, which teaches the model to fill those fields from its language prior. That is exactly the behaviour in Exp 1. The data fix is to rewrite targets so that fields the input can't support read "not assessable from the provided tissue" instead of the case-level answer.
+*Figure 4. The three proposed changes. a: training targets keep only what the slide shows and say "not assessable" for the rest. b: DPO on report pairs that differ by one fact. c: MedGemma writes its facts as a structured output, the same facts are extracted from the pathologist's report, and the two are compared field by field instead of by shared words.*
 
-**3. Make the loss notice the words that matter.** Cross-entropy weighs "tumour" and "negative" the same, just like ROUGE. Two changes would help. Up-weight the loss on tokens that carry a checklist field (negations, numbers, grades, margin status, laterality). And train on counterfactual pairs: the flip generator from Exp 2a produces a wrong-by-one-fact copy of every report for free, which can serve as a hard negative, through an unlikelihood loss on the flipped report or as the rejected answer in DPO.
+**a. Pre-training: stop the data from teaching invention.** The model is trained to write a whole-case report from one slide, so it learns to guess facts the slide can't show. The fix:
 
-**4. Reinforcement learning with a checkable reward.** Because the checklist fields can be compared automatically, the reward can be computed rather than collected from raters, in the style of RL with verifiable rewards (for example GRPO): reward each correct field and each correct "not assessable", penalise stated fields the input can't support, and penalise repetition. Human or pathologist preference feedback (RLHF) is then only needed for the close calls the checklist can't settle.
+- Run the fact extractor from c over every training report.
+- For facts one slide can't show (margins, lymph nodes, laterality), replace the value with "not assessable from this slide".
+- Pre-train on these relabelled reports. The model learns that the correct answer for those facts is to say it can't tell, and the third number in c measures whether it does.
 
-**5. Generate the checklist first, then the prose.** Decode the structured fields first, constrained to valid values including "not assessable", with each field linked to the patches that support it, for example through the attention weights of a multiple-instance pooling layer. Then write the prose report from those fields. This makes every stated fact traceable to image evidence and removes the free-text loops seen in Exp 1.
+**b. Post-training: train on one-fact flips.** Standard training barely separates "margins negative" from "margins positive", because the two reports differ by a single word. The fix:
+
+- Run the Exp 2a generator on each training report to get a pair: the correct report and a copy with one fact flipped.
+- Fine-tune with DPO on these pairs, with the slide's patches as input, so the model learns to prefer the correct report over the flipped one.
+- DPO needs no separate reward model, and with LoRA it fits on a single GPU for a 4B model.
+
+**c. Evaluation: score reports on facts, not words.** Replace ROUGE with a field-by-field check. Extract the facts from Table 2 (or the full CAP breast checklist pathologists already use) from both the generated and the reference report with an LLM, as done for Exp 1, and compare them one by one, the way RadGraph F1 already does for chest X-rays. Report three numbers instead of one:
+
+- accuracy on facts a slide can show (diagnosis, grade, LVI),
+- how often the model states facts a slide can't show (margins, nodes, laterality): MedGemma did so for margins in 15 of 53 reports and for nodes in 13,
+- how often it correctly says "not assessable": MedGemma never did, for any of the six facts.
+
+
 
 ## Limitations
 
 - MedGemma's model card lists TCGA among its training data, so it may have seen these slides or reports. Exp 2a doesn't involve the model, so this doesn't affect it.
 - The reports were OCR'd from scanned PDFs and contain typos.
-- Flips and rewordings come from word-level rules, so a flip is skipped when a report states a fact in a form the rules don't cover. That is why the "Reports affected" column varies.
 - The rewordings are mild. A real model's correct report would differ from the reference much more, so Exp 2a understates the problem.
 - Random patches may contain no tumor. A tumor-targeted set would separate "can't see it" from "sees it and gets it wrong".
 - MedGemma sees at most 32 patches at 5x per slide, fewer than Google's cap of 126 and at one magnification only, because of GPU memory.
-- 53 cases is a small sample, suitable for showing the pattern, not for precise rates.
-- The Exp 2b corrections are minimal word edits written by hand. They fix the claim but can leave a report internally inconsistent, for example a corrected stage next to an unchanged tumour size.
-- Exp 1 facts were annotated by an LLM (Claude) with verbatim evidence and spot-checked by me (TODO: number of cases), not by a pathologist. Grading close calls ("high-grade carcinoma" as grade 3; IDC, invasive ductal carcinoma, versus "invasive carcinoma of no special type", which is the newer name for the same thing) follow the rules stated above.
+- Exp 1 facts were annotated by an LLM (Claude) with verbatim evidence and partly reviewed by me, not by a pathologist. Some verdicts needed judgment, for example counting "high-grade carcinoma" as grade 3.
+
+
 
 ## Code
 
-| File                               | What it does                                                                                                                              |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+
+| File                               | What it does                                                                                                                                 |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/01_prepare_data.py`           | Downloads reports, selects cases (`data/00_cases.csv`), streams slides and cuts patches (`data/patches/`)                                    |
-| `src/02_metric_paradox.py`         | Experiment 2a: flips and rewordings of the reference reports, writes `results/02_metric_paradox.csv` and `.png`                          |
+| `src/02_metric_paradox.py`         | Experiment 2a: flips and rewordings of the reference reports, writes `results/02_metric_paradox.csv` and `.png`                              |
 | `src/03_generate_reports.py`       | Experiment 1: MedGemma writes a report per case from up to 32 patches (images encoded 4 at a time), writes `results/03_medgemma_reports.csv` |
-| `src/04_fact_analysis.py`          | Experiment 1 scoring: counts `results/04_annotations.csv`, draws `results/04_fact_accuracy.png`                                           |
-| `src/05_correct_and_rescore.py`    | Experiment 2b: fixes MedGemma's contradicted facts using `results/05_corrections.csv` and prints the rescored summary                     |
-| `src/utils/plots.py`               | All charts, in one shared style                                                                                                           |
-| `src/utils/dataset_download.ipynb` | Runs `01_prepare_data.py` on Colab's fast connection                                                                                      |
+| `src/04_fact_analysis.py`          | Experiment 1 scoring: counts `results/04_annotations.csv`, draws `results/04_fact_accuracy.png`                                              |
+| `src/05_correct_and_rescore.py`    | Experiment 2b: fixes MedGemma's contradicted facts using `results/05_corrections.csv` and prints the rescored summary                        |
+| `src/utils/plots.py`               | All charts, in one shared style                                                                                                              |
+| `src/utils/dataset_download.ipynb` | Runs `01_prepare_data.py` on Colab's fast connection                                                                                         |
+
+
+*Table 6. Scripts in* `src/` *and the experiment each belongs to.*
