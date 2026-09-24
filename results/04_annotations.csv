@@ -1,0 +1,354 @@
+case_id,item,pathologist,medgemma,verdict,medgemma_quote
+TCGA-A2-A0CX,diagnosis,IDC,"invasive carcinoma, no type",not stated,Invasive carcinoma.
+TCGA-A2-A0CX,grade,3,,not stated,
+TCGA-A2-A0CX,lvi,absent,,not stated,
+TCGA-A2-A0CX,margins,negative,,not stated,
+TCGA-A2-A0CX,nodes,negative (pN0),positive (N1),wrong,T4 N1(sn) M0
+TCGA-A2-A0CX,laterality,left,,not stated,
+TCGA-A2-A0SW,diagnosis,IDC,sarcoma,wrong,High-grade pleomorphic sarcoma.
+TCGA-A2-A0SW,grade,3,high grade,correct,High-grade pleomorphic sarcoma.
+TCGA-A2-A0SW,lvi,present,absent,wrong,There is no evidence of lymphovascular invasion identified in the sections examined.
+TCGA-A2-A0SW,margins,negative (close),,not stated,
+TCGA-A2-A0SW,nodes,"positive (4/15, N2)",negative (N0),wrong,T4 N0 M1 (based on clinical information provided).
+TCGA-A2-A0SW,laterality,right,,not stated,
+TCGA-A2-A0T2,diagnosis,IDC,IDC,correct,Invasive ductal carcinoma.
+TCGA-A2-A0T2,grade,3,,not stated,
+TCGA-A2-A0T2,lvi,present,,not stated,
+TCGA-A2-A0T2,margins,negative,,not stated,
+TCGA-A2-A0T2,nodes,positive (10/14),,not stated,
+TCGA-A2-A0T2,laterality,right,,not stated,
+TCGA-A2-A3XT,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, moderately differentiated."
+TCGA-A2-A3XT,grade,3,2,wrong,"Invasive ductal carcinoma, moderately differentiated."
+TCGA-A2-A3XT,lvi,present,absent,wrong,Lymphovascular invasion: Not identified.
+TCGA-A2-A3XT,margins,positive,positive,correct,The deep margin is positive for tumor.
+TCGA-A2-A3XT,nodes,not reported,,not stated,
+TCGA-A2-A3XT,laterality,left,,not stated,
+TCGA-A7-A26J,diagnosis,IDC,"invasive carcinoma, no type",not stated,Invasive carcinoma.
+TCGA-A7-A26J,grade,3,,not stated,
+TCGA-A7-A26J,lvi,present,,not stated,
+TCGA-A7-A26J,margins,negative,positive,wrong,Tumor is present in the surgical margins.
+TCGA-A7-A26J,nodes,negative (0/4),,not stated,
+TCGA-A7-A26J,laterality,left,,not stated,
+TCGA-AC-A3QP,diagnosis,ILC,"high-grade carcinoma, no type",not stated,There is a high-grade carcinoma identified.
+TCGA-AC-A3QP,grade,2,3,wrong,There is a high-grade carcinoma identified.
+TCGA-AC-A3QP,lvi,absent,absent,correct,There is no evidence of lymphovascular invasion identified.
+TCGA-AC-A3QP,margins,negative,,not stated,
+TCGA-AC-A3QP,nodes,positive (1/2),,not stated,
+TCGA-AC-A3QP,laterality,right,,not stated,
+TCGA-AC-A8OP,diagnosis,IDC,benign,wrong,benign breast tissue.
+TCGA-AC-A8OP,grade,2,,not stated,
+TCGA-AC-A8OP,lvi,absent,,not stated,
+TCGA-AC-A8OP,margins,negative,,not stated,
+TCGA-AC-A8OP,nodes,negative (0/6),,not stated,
+TCGA-AC-A8OP,laterality,right,,not stated,
+TCGA-AO-A03O,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, moderately differentiated"
+TCGA-AO-A03O,grade,3,2,wrong,Tumor grade: Grade 2.
+TCGA-AO-A03O,lvi,present,present,correct,Lymphovascular invasion: Present.
+TCGA-AO-A03O,margins,negative,negative,correct,The surgical margins are negative for tumor.
+TCGA-AO-A03O,nodes,negative (0/17),positive (N1),wrong,T4 N1(c) M0 (based on imaging).
+TCGA-AO-A03O,laterality,right,bilateral,wrong,The tumor is multifocal and bilateral.
+TCGA-AQ-A54N,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, poorly differentiated."
+TCGA-AQ-A54N,grade,3,3,correct,"Invasive ductal carcinoma, poorly differentiated."
+TCGA-AQ-A54N,lvi,absent,,not stated,
+TCGA-AQ-A54N,margins,negative,,not stated,
+TCGA-AQ-A54N,nodes,negative (0/1),,not stated,
+TCGA-AQ-A54N,laterality,left,,not stated,
+TCGA-AR-A5QM,diagnosis,"bilateral: left ILC, right IDC",IDC,no reference,"Invasive ductal carcinoma, moderately differentiated."
+TCGA-AR-A5QM,grade,2 (both sides),2,correct,"Invasive ductal carcinoma, moderately differentiated."
+TCGA-AR-A5QM,lvi,"left absent, right present",,not stated,
+TCGA-AR-A5QM,margins,negative,positive,wrong,Tumor present at inked surgical margins.
+TCGA-AR-A5QM,nodes,negative,,not stated,
+TCGA-AR-A5QM,laterality,bilateral,,not stated,
+TCGA-B6-A0IG,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, well differentiated (5/9)."
+TCGA-B6-A0IG,grade,3,1,wrong,"Invasive ductal carcinoma, well differentiated (5/9)."
+TCGA-B6-A0IG,lvi,present,,not stated,
+TCGA-B6-A0IG,margins,negative,,not stated,
+TCGA-B6-A0IG,nodes,positive (4/16),,not stated,
+TCGA-B6-A0IG,laterality,left,,not stated,
+TCGA-B6-A0RO,diagnosis,IDC,benign,wrong,Benign breast mass.
+TCGA-B6-A0RO,grade,2,,not stated,
+TCGA-B6-A0RO,lvi,absent,,not stated,
+TCGA-B6-A0RO,margins,negative,,not stated,
+TCGA-B6-A0RO,nodes,positive (2/17),,not stated,
+TCGA-B6-A0RO,laterality,right,,not stated,
+TCGA-BH-A0B1,diagnosis,IDC,fibroadenoma (benign),wrong,Fibroadenoma.
+TCGA-BH-A0B1,grade,2,,not stated,
+TCGA-BH-A0B1,lvi,present,,not stated,
+TCGA-BH-A0B1,margins,negative,,not stated,
+TCGA-BH-A0B1,nodes,positive (1/15),,not stated,
+TCGA-BH-A0B1,laterality,right,,not stated,
+TCGA-BH-A0B9,diagnosis,IDC,no carcinoma (inflammation),wrong,Dense fibrotic tissue with marked stromal cellularity and diffuse lymphoplasmacytic infiltrate.
+TCGA-BH-A0B9,grade,3,,not stated,
+TCGA-BH-A0B9,lvi,absent,,not stated,
+TCGA-BH-A0B9,margins,negative,,not stated,
+TCGA-BH-A0B9,nodes,negative (0/1),,not stated,
+TCGA-BH-A0B9,laterality,right,,not stated,
+TCGA-BH-A0BO,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, moderately differentiated."
+TCGA-BH-A0BO,grade,2,2,correct,Tumor grade (Bloom-Richardson): Grade 2.
+TCGA-BH-A0BO,lvi,absent,absent,correct,Lymphovascular invasion: Not identified.
+TCGA-BH-A0BO,margins,negative,negative,correct,Surgical margins: Negative for tumor.
+TCGA-BH-A0BO,nodes,negative (0/3),,not stated,
+TCGA-BH-A0BO,laterality,left,,not stated,
+TCGA-BH-A0DS,diagnosis,IDC,"invasive, no type",not stated,The tumor is invasive.
+TCGA-BH-A0DS,grade,2,2,correct,The tumor is moderately differentiated.
+TCGA-BH-A0DS,lvi,present,,not stated,
+TCGA-BH-A0DS,margins,negative,,not stated,
+TCGA-BH-A0DS,nodes,positive (7/14),,not stated,
+TCGA-BH-A0DS,laterality,right,,not stated,
+TCGA-BH-A0DX,diagnosis,IDC,"invasive carcinoma, no type",not stated,Invasive carcinoma of the breast.
+TCGA-BH-A0DX,grade,2,,not stated,
+TCGA-BH-A0DX,lvi,absent,,not stated,
+TCGA-BH-A0DX,margins,negative,,not stated,
+TCGA-BH-A0DX,nodes,negative (0/12),,not stated,
+TCGA-BH-A0DX,laterality,left,,not stated,
+TCGA-BH-A0E1,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, moderately differentiated, with prominent vascular component."
+TCGA-BH-A0E1,grade,2,2,correct,"Invasive ductal carcinoma, moderately differentiated"
+TCGA-BH-A0E1,lvi,present,,not stated,
+TCGA-BH-A0E1,margins,negative,,not stated,
+TCGA-BH-A0E1,nodes,positive (pN1mi),,not stated,
+TCGA-BH-A0E1,laterality,left,,not stated,
+TCGA-BH-A0E6,diagnosis,IDC,fibroadenoma (benign),wrong,Fibroadenoma.
+TCGA-BH-A0E6,grade,3,,not stated,
+TCGA-BH-A0E6,lvi,absent,,not stated,
+TCGA-BH-A0E6,margins,negative,,not stated,
+TCGA-BH-A0E6,nodes,not reported,,not stated,
+TCGA-BH-A0E6,laterality,left,,not stated,
+TCGA-BH-A0E7,diagnosis,IDC,benign,wrong,No evidence of malignancy.
+TCGA-BH-A0E7,grade,2,,not stated,
+TCGA-BH-A0E7,lvi,absent,,not stated,
+TCGA-BH-A0E7,margins,negative,,not stated,
+TCGA-BH-A0E7,nodes,positive (1/17),,not stated,
+TCGA-BH-A0E7,laterality,left,,not stated,
+TCGA-BH-A0EE,diagnosis,IDC,IDC,correct,Invasive ductal carcinoma.
+TCGA-BH-A0EE,grade,3,,not stated,
+TCGA-BH-A0EE,lvi,absent,,not stated,
+TCGA-BH-A0EE,margins,negative,,not stated,
+TCGA-BH-A0EE,nodes,negative (0/1),,not stated,
+TCGA-BH-A0EE,laterality,right,,not stated,
+TCGA-BH-A0H6,diagnosis,IDC,no invasive type,not stated,
+TCGA-BH-A0H6,grade,1,2 (intermediate),wrong,The tumor cells are of intermediate grade.
+TCGA-BH-A0H6,lvi,absent,,not stated,
+TCGA-BH-A0H6,margins,negative,,not stated,
+TCGA-BH-A0H6,nodes,not examined,,not stated,
+TCGA-BH-A0H6,laterality,right,,not stated,
+TCGA-BH-A0W3,diagnosis,IDC,fibroadenoma (benign),wrong,Fibroadenoma.
+TCGA-BH-A0W3,grade,2,,not stated,
+TCGA-BH-A0W3,lvi,absent,,not stated,
+TCGA-BH-A0W3,margins,negative,,not stated,
+TCGA-BH-A0W3,nodes,positive (1/4),,not stated,
+TCGA-BH-A0W3,laterality,left,,not stated,
+TCGA-BH-A0W4,diagnosis,IDC (bilateral),IDC,correct,The tumor is invasive ductal carcinoma.
+TCGA-BH-A0W4,grade,1 (both sides),2,wrong,The tumor is moderately differentiated.
+TCGA-BH-A0W4,lvi,absent,,not stated,
+TCGA-BH-A0W4,margins,negative,,not stated,
+TCGA-BH-A0W4,nodes,negative,,not stated,
+TCGA-BH-A0W4,laterality,bilateral,,not stated,
+TCGA-BH-A0W5,diagnosis,IDC,"invasive carcinoma, no type",not stated,Invasive carcinoma.
+TCGA-BH-A0W5,grade,2,2,correct,The tumor is moderately differentiated.
+TCGA-BH-A0W5,lvi,not reported,,not stated,
+TCGA-BH-A0W5,margins,negative,,not stated,
+TCGA-BH-A0W5,nodes,positive (1/2),negative,wrong,There is no evidence of axillary lymphadenopathy.
+TCGA-BH-A0W5,laterality,left,,not stated,
+TCGA-BH-A0W7,diagnosis,IDC,"invasive carcinoma, no type",not stated,The tumor is invasive carcinoma.
+TCGA-BH-A0W7,grade,1,,not stated,
+TCGA-BH-A0W7,lvi,unclear (see comment),,not stated,
+TCGA-BH-A0W7,margins,negative,,not stated,
+TCGA-BH-A0W7,nodes,negative (0/2),,not stated,
+TCGA-BH-A0W7,laterality,left,,not stated,
+TCGA-BH-A0WA,diagnosis,IDC (metaplastic),type not specified,not stated,Tumor type: Not specified.
+TCGA-BH-A0WA,grade,3,high grade,correct,Tumor grade: High grade.
+TCGA-BH-A0WA,lvi,absent,,not stated,
+TCGA-BH-A0WA,margins,negative,positive,wrong,The tumor is present at the inked surgical margin.
+TCGA-BH-A0WA,nodes,negative (0/3),,not stated,
+TCGA-BH-A0WA,laterality,right,,not stated,
+TCGA-BH-A18I,diagnosis,IDC,"invasive carcinoma, no type",not stated,The tumor is invasive carcinoma.
+TCGA-BH-A18I,grade,2,2,correct,The tumor is grade 2.
+TCGA-BH-A18I,lvi,absent,,not stated,
+TCGA-BH-A18I,margins,positive (superior),positive,correct,The tumor is present at the deep margin.
+TCGA-BH-A18I,nodes,positive (1/3),,not stated,
+TCGA-BH-A18I,laterality,left,,not stated,
+TCGA-BH-A18S,diagnosis,IDC (mucinous),no type,not stated,
+TCGA-BH-A18S,grade,1,,not stated,
+TCGA-BH-A18S,lvi,absent,,not stated,
+TCGA-BH-A18S,margins,negative,,not stated,
+TCGA-BH-A18S,nodes,negative (0/2),,not stated,
+TCGA-BH-A18S,laterality,right,,not stated,
+TCGA-BH-A18T,diagnosis,IDC,IDC,correct,Invasive ductal carcinoma.
+TCGA-BH-A18T,grade,3,2,wrong,"Invasive ductal carcinoma, moderately differentiated, T4 N1(c) M0, Stage IIIA."
+TCGA-BH-A18T,lvi,present,,not stated,
+TCGA-BH-A18T,margins,negative,positive,wrong,The tumor is present at the inked surgical margins.
+TCGA-BH-A18T,nodes,negative (0/3),positive (N1),wrong,T4 N1(c) M0 (based on imaging and clinical information).
+TCGA-BH-A18T,laterality,right,,not stated,
+TCGA-BH-A1F5,diagnosis,IDC,IDC,correct,Invasive ductal carcinoma (IDC) with central necrosis and associated microcalcifications.
+TCGA-BH-A1F5,grade,2,,not stated,
+TCGA-BH-A1F5,lvi,present,,not stated,
+TCGA-BH-A1F5,margins,negative,,not stated,
+TCGA-BH-A1F5,nodes,positive (1/9),negative,wrong,No evidence of axillary lymphadenopathy.
+TCGA-BH-A1F5,laterality,right,,not stated,
+TCGA-BH-A201,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, grade 3."
+TCGA-BH-A201,grade,2,3,wrong,"Invasive ductal carcinoma, grade 3."
+TCGA-BH-A201,lvi,present,absent,wrong,There is no evidence of lymphovascular invasion.
+TCGA-BH-A201,margins,negative,,not stated,
+TCGA-BH-A201,nodes,negative (0/2),negative,correct,There is no evidence of lymph node involvement.
+TCGA-BH-A201,laterality,left,,not stated,
+TCGA-BH-A202,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, poorly differentiated."
+TCGA-BH-A202,grade,3,3,correct,"Invasive ductal carcinoma, poorly differentiated."
+TCGA-BH-A202,lvi,absent,absent,correct,There is no evidence of lymphovascular invasion.
+TCGA-BH-A202,margins,negative,,not stated,
+TCGA-BH-A202,nodes,negative (0/3),negative (N0),correct,NO AXILLARY LYMPH NODE METASTASIS.
+TCGA-BH-A202,laterality,left,,not stated,
+TCGA-BH-A28O,diagnosis,ILC,IDC,wrong,"Invasive ductal carcinoma, not otherwise specified."
+TCGA-BH-A28O,grade,1,,not stated,
+TCGA-BH-A28O,lvi,absent,,not stated,
+TCGA-BH-A28O,margins,"close (0.1 cm), not involved",,not stated,
+TCGA-BH-A28O,nodes,positive (14/14),,not stated,
+TCGA-BH-A28O,laterality,right,,not stated,
+TCGA-BH-A28Q,diagnosis,ILC,"invasive carcinoma, no type",not stated,The tumor is invasive carcinoma.
+TCGA-BH-A28Q,grade,2,2 (intermediate),correct,The tumor is of intermediate grade.
+TCGA-BH-A28Q,lvi,present,,not stated,
+TCGA-BH-A28Q,margins,negative,positive,wrong,The tumor is present at the inked surgical margin.
+TCGA-BH-A28Q,nodes,positive (2/18),positive,correct,The tumor is present at the inked level I axillary lymph node.
+TCGA-BH-A28Q,laterality,right,,not stated,
+TCGA-BH-A42T,diagnosis,ILC,IDC,wrong,"Invasive ductal carcinoma, no special type, high grade, with skin involvement."
+TCGA-BH-A42T,grade,2,3,wrong,Tumor grade: High grade
+TCGA-BH-A42T,lvi,present,,not stated,
+TCGA-BH-A42T,margins,negative,,not stated,
+TCGA-BH-A42T,nodes,"isolated tumor cells only, N0(i+)",negative (N0),correct,T4 N0 M1 (clinical staging).
+TCGA-BH-A42T,laterality,left,,not stated,
+TCGA-BH-A42V,diagnosis,IDC,IDC,correct,Invasive ductal carcinoma.
+TCGA-BH-A42V,grade,2,,not stated,
+TCGA-BH-A42V,lvi,absent,,not stated,
+TCGA-BH-A42V,margins,negative,,not stated,
+TCGA-BH-A42V,nodes,positive (1/3),,not stated,
+TCGA-BH-A42V,laterality,left,,not stated,
+TCGA-E2-A15H,diagnosis,IDC,IDC,correct,The tumor is invasive ductal carcinoma.
+TCGA-E2-A15H,grade,2,2,correct,The tumor is moderately differentiated.
+TCGA-E2-A15H,lvi,present,,not stated,
+TCGA-E2-A15H,margins,positive (anterior),,not stated,
+TCGA-E2-A15H,nodes,positive (1/4),,not stated,
+TCGA-E2-A15H,laterality,right,,not stated,
+TCGA-E2-A15R,diagnosis,not reported (reference covers sentinel nodes only),IDC,no reference,"Invasive ductal carcinoma, moderately differentiated (grade 2)."
+TCGA-E2-A15R,grade,not reported,2,no reference,"Invasive ductal carcinoma, moderately differentiated (grade 2)."
+TCGA-E2-A15R,lvi,not reported,,not stated,
+TCGA-E2-A15R,margins,not reported,negative,no reference,Surgical margins: Negative.
+TCGA-E2-A15R,nodes,negative,negative (N0),correct,Tumor stage: pT1 N0 pMx.
+TCGA-E2-A15R,laterality,right,,not stated,
+TCGA-E9-A1R2,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, moderately differentiated (6/9)."
+TCGA-E9-A1R2,grade,3,2,wrong,"Invasive ductal carcinoma, moderately differentiated (6/9)."
+TCGA-E9-A1R2,lvi,present,absent,wrong,No lymphovascular invasion identified.
+TCGA-E9-A1R2,margins,negative,positive,wrong,Tumor present at the inked surgical margin.
+TCGA-E9-A1R2,nodes,positive (17/19),,not stated,
+TCGA-E9-A1R2,laterality,left,,not stated,
+TCGA-E9-A6HE,diagnosis,ILC,no type,not stated,
+TCGA-E9-A6HE,grade,not graded,,not stated,
+TCGA-E9-A6HE,lvi,present,,not stated,
+TCGA-E9-A6HE,margins,negative,positive,wrong,The tumor is present at the inked surgical margin.
+TCGA-E9-A6HE,nodes,positive (12/12),positive,correct,The tumor is present in the axillary lymph nodes.
+TCGA-E9-A6HE,laterality,right,,not stated,
+TCGA-EW-A1OW,diagnosis,"invasive carcinoma, no special type",IDC (= no special type),correct,"Invasive ductal carcinoma, poorly differentiated."
+TCGA-EW-A1OW,grade,3,3,correct,"Invasive ductal carcinoma, poorly differentiated."
+TCGA-EW-A1OW,lvi,absent,,not stated,
+TCGA-EW-A1OW,margins,negative,,not stated,
+TCGA-EW-A1OW,nodes,negative (0/3),,not stated,
+TCGA-EW-A1OW,laterality,left,,not stated,
+TCGA-EW-A1P8,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, poorly differentiated (Grade 3)."
+TCGA-EW-A1P8,grade,3,3,correct,"Invasive ductal carcinoma, poorly differentiated (Grade 3)."
+TCGA-EW-A1P8,lvi,present,,not stated,
+TCGA-EW-A1P8,margins,negative (close),positive,wrong,The tumor is present at the inked surgical margins.
+TCGA-EW-A1P8,nodes,positive (14/15),,not stated,
+TCGA-EW-A1P8,laterality,left,,not stated,
+TCGA-EW-A1PB,diagnosis,IDC,metastatic carcinoma,wrong,Metastatic carcinoma.
+TCGA-EW-A1PB,grade,3,3,correct,The tumor is poorly differentiated.
+TCGA-EW-A1PB,lvi,present,absent,wrong,No lymphovascular invasion is identified.
+TCGA-EW-A1PB,margins,negative,,not stated,
+TCGA-EW-A1PB,nodes,positive (2/8),,not stated,
+TCGA-EW-A1PB,laterality,right,,not stated,
+TCGA-EW-A1PE,diagnosis,IDC (micropapillary),"invasive carcinoma, no type",not stated,The tumor is invasive carcinoma.
+TCGA-EW-A1PE,grade,2,,not stated,
+TCGA-EW-A1PE,lvi,present,,not stated,
+TCGA-EW-A1PE,margins,negative,,not stated,
+TCGA-EW-A1PE,nodes,positive (1/23),,not stated,
+TCGA-EW-A1PE,laterality,left,,not stated,
+TCGA-EW-A424,diagnosis,ILC,IDC,wrong,"Invasive ductal carcinoma, moderately differentiated, with focal glandular differentiation."
+TCGA-EW-A424,grade,2,2,correct,"Invasive ductal carcinoma, moderately differentiated"
+TCGA-EW-A424,lvi,absent,,not stated,
+TCGA-EW-A424,margins,negative,,not stated,
+TCGA-EW-A424,nodes,negative (0/1),,not stated,
+TCGA-EW-A424,laterality,right,,not stated,
+TCGA-GM-A2D9,diagnosis,IDC,no tumor,wrong,No definitive tumor identified.
+TCGA-GM-A2D9,grade,1,,not stated,
+TCGA-GM-A2D9,lvi,absent,,not stated,
+TCGA-GM-A2D9,margins,negative,,not stated,
+TCGA-GM-A2D9,nodes,negative (0/2),,not stated,
+TCGA-GM-A2D9,laterality,left,,not stated,
+TCGA-GM-A2DB,diagnosis,IDC,IDC,correct,Invasive ductal carcinoma.
+TCGA-GM-A2DB,grade,3,2,wrong,"Invasive ductal carcinoma, moderately differentiated, with skin involvement."
+TCGA-GM-A2DB,lvi,absent,present,wrong,There is associated stromal and vascular invasion.
+TCGA-GM-A2DB,margins,negative,,not stated,
+TCGA-GM-A2DB,nodes,negative (0/3),positive (N1),wrong,T2 N1 M1 (based on imaging).
+TCGA-GM-A2DB,laterality,left,,not stated,
+TCGA-LD-A74U,diagnosis,ILC,sarcoma,wrong,High-grade pleomorphic sarcoma.
+TCGA-LD-A74U,grade,not graded,high grade,no reference,High-grade pleomorphic sarcoma.
+TCGA-LD-A74U,lvi,"suspicious, focal",,not stated,
+TCGA-LD-A74U,margins,negative (close),,not stated,
+TCGA-LD-A74U,nodes,positive (11/12),,not stated,
+TCGA-LD-A74U,laterality,right,,not stated,
+TCGA-LL-A7SZ,diagnosis,IDC,IDC,correct,"Invasive ductal carcinoma, high grade."
+TCGA-LL-A7SZ,grade,3,3,correct,"Invasive ductal carcinoma, high grade."
+TCGA-LL-A7SZ,lvi,present,,not stated,
+TCGA-LL-A7SZ,margins,negative,positive,wrong,Tumor present at inked surgical margin.
+TCGA-LL-A7SZ,nodes,positive (2/11),,not stated,
+TCGA-LL-A7SZ,laterality,left,,not stated,
+TCGA-PE-A5DC,diagnosis,ILC (pleomorphic),IDC,wrong,Invasive ductal carcinoma.
+TCGA-PE-A5DC,grade,3,,not stated,
+TCGA-PE-A5DC,lvi,present,,not stated,
+TCGA-PE-A5DC,margins,negative (after re-excision),negative,correct,The surgical margins are negative.
+TCGA-PE-A5DC,nodes,positive (5/31),,not stated,
+TCGA-PE-A5DC,laterality,right,,not stated,
+TCGA-PE-A5DD,diagnosis,ILC,"high-grade carcinoma, no type",not stated,High grade carcinoma.
+TCGA-PE-A5DD,grade,2,3,wrong,High grade carcinoma.
+TCGA-PE-A5DD,lvi,absent,,not stated,
+TCGA-PE-A5DD,margins,"lateral involved, final margins clear",,not stated,
+TCGA-PE-A5DD,nodes,negative (0/2),,not stated,
+TCGA-PE-A5DD,laterality,right,,not stated,
+TCGA-PE-A5DE,diagnosis,ILC,IDC,wrong,"Invasive ductal carcinoma, poorly differentiated (Grade 3)."
+TCGA-PE-A5DE,grade,not reported,3,no reference,"Invasive ductal carcinoma, poorly differentiated (Grade 3)."
+TCGA-PE-A5DE,lvi,absent,,not stated,
+TCGA-PE-A5DE,margins,negative,positive,wrong,The tumor is present at the inked surgical margin.
+TCGA-PE-A5DE,nodes,negative (0/1),,not stated,
+TCGA-PE-A5DE,laterality,left,,not stated,
+TCGA-A2-A0SW,cites_absent_information,,,observed,based on clinical information provided
+TCGA-AO-A03O,cites_absent_information,,,observed,based on imaging
+TCGA-BH-A18T,cites_absent_information,,,observed,based on imaging and clinical information
+TCGA-GM-A2DB,cites_absent_information,,,observed,based on imaging
+TCGA-PE-A5DC,invented_biomarkers,,,observed,The tumor is triple negative.
+TCGA-B6-A0IG,invented_biomarkers,,,observed,Estrogen receptor positive
+TCGA-BH-A0E1,invented_biomarkers,,,observed,"positive for estrogen receptor, progesterone receptor, and mammaglobin"
+TCGA-BH-A18I,invented_biomarkers,,,observed,The tumor is HER2 negative.
+TCGA-E2-A15R,invented_biomarkers,,,observed,Estrogen receptor positive.
+TCGA-E9-A1R2,invented_biomarkers,,,observed,HER2 negative (HER2-).
+TCGA-EW-A424,invented_biomarkers,,,observed,"Estrogen receptor positive, progesterone receptor positive, HER2 negative."
+TCGA-A2-A0SW,invented_metastasis,,,observed,T4 N0 M1
+TCGA-BH-A202,invented_metastasis,,,observed,T4N0M1.
+TCGA-BH-A42T,invented_metastasis,,,observed,T4 N0 M1
+TCGA-GM-A2DB,invented_metastasis,,,observed,T2 N1 M1
+TCGA-AO-A03O,invented_stage,,,observed,T4 N1(c) M0 (based on imaging).
+TCGA-A2-A0CX,invented_stage,,,observed,T4 N1(sn) M0
+TCGA-A2-A0SW,invented_stage,,,observed,T4 N0 M1 (based on clinical information provided).
+TCGA-BH-A18T,invented_stage,,,observed,T4 N1(c) M0 (based on imaging and clinical information).
+TCGA-BH-A202,invented_stage,,,observed,T4N0M1.
+TCGA-BH-A42T,invented_stage,,,observed,T4 N0 M1 (clinical staging).
+TCGA-E2-A15R,invented_stage,,,observed,pT1 N0 pMx.
+TCGA-GM-A2DB,invented_stage,,,observed,T2 N1 M1 (based on imaging).
+TCGA-BH-A0B1,missed_cancer,,,observed,Fibroadenoma.
+TCGA-AC-A8OP,missed_cancer,,,observed,benign breast tissue.
+TCGA-B6-A0RO,missed_cancer,,,observed,Benign breast mass.
+TCGA-BH-A0B9,missed_cancer,,,observed,diffuse lymphoplasmacytic infiltrate.
+TCGA-BH-A0E6,missed_cancer,,,observed,Fibroadenoma.
+TCGA-BH-A0E7,missed_cancer,,,observed,No evidence of malignancy.
+TCGA-BH-A0W3,missed_cancer,,,observed,Fibroadenoma.
+TCGA-GM-A2D9,missed_cancer,,,observed,No definitive tumor identified.
+TCGA-BH-A201,radiology_term,,,observed,BI-RADS Category 5:
+TCGA-BH-A0EE,radiology_term,,,observed,BI-RADS:
+TCGA-BH-A42V,radiology_term,,,observed,BI-RADS:
+TCGA-PE-A5DC,radiology_term,,,observed,BI-RADS:

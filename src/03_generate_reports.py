@@ -1,11 +1,10 @@
-"""Experiment 2: MedGemma writes a final diagnosis for each case from its patches.
+"""Experiment 1: MedGemma writes a final diagnosis for each case from its patches.
 
-  uv run generate_reports.py  ->  results/medgemma_reports.csv
+  uv run src/03_generate_reports.py  ->  results/03_medgemma_reports.csv
 
-Each case's patches (from prepare_data.py) go into one prompt, in spatial order.
+Each case's patches (from 01_prepare_data.py) go into one prompt, in spatial order.
 Runs in bf16 on a 12 GB RTX 5070 with two memory fixes: images are encoded 4 at
 a time (same output, much lower peak) and at most 32 patches per case.
-Needs a Hugging Face token with access to google/medgemma-1.5-4b-it.
 """
 
 import csv
@@ -15,7 +14,7 @@ import torch
 from PIL import Image
 from transformers import AutoModelForImageTextToText, AutoProcessor
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).parent.parent
 MODEL_ID = "google/medgemma-1.5-4b-it"
 MAX_IMAGES = 32
 VISION_BATCH = 4
@@ -49,11 +48,11 @@ def main():
     processor = AutoProcessor.from_pretrained(MODEL_ID)
 
     csv.field_size_limit(10**9)
-    with open(ROOT / "data" / "cases.csv") as f:
+    with open(ROOT / "data" / "00_cases.csv") as f:
         references = {c["case_id"]: c["reference"] for c in csv.DictReader(f)}
 
     (ROOT / "results").mkdir(exist_ok=True)
-    with open(ROOT / "results" / "medgemma_reports.csv", "w", newline="") as f:
+    with open(ROOT / "results" / "03_medgemma_reports.csv", "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=["case_id", "n_patches", "generated", "reference"])
         writer.writeheader()
         for case_dir in sorted((ROOT / "data" / "patches").iterdir()):

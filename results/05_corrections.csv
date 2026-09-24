@@ -1,0 +1,77 @@
+case_id,fact,find,replace
+TCGA-A2-A0CX,nodes,N1\(sn\),N0(sn)
+TCGA-A2-A0SW,diagnosis,[Pp]leomorphic sarcoma,invasive ductal carcinoma
+TCGA-A2-A0SW,lvi,There is no evidence of lymphovascular invasion identified,There is lymphovascular invasion identified
+TCGA-A2-A0SW,nodes,T4 N0 M1,T4 N2 M1
+TCGA-A2-A3XT,grade,moderately differentiated,poorly differentiated
+TCGA-A2-A3XT,lvi,(Lymphovascular invasion:\s*)Not identified,\1Present
+TCGA-A7-A26J,margins,is present in the surgical margins,is not present in the surgical margins
+TCGA-AC-A3QP,grade,high-grade carcinoma,intermediate-grade carcinoma
+TCGA-AC-A8OP,diagnosis,There is no evidence of malignancy\.,There is invasive ductal carcinoma.
+TCGA-AC-A8OP,diagnosis,composed of benign breast tissue,composed of invasive ductal carcinoma
+TCGA-AC-A8OP,diagnosis,(FINAL DIAGNOSIS:\s*)benign breast tissue,\1invasive ductal carcinoma
+TCGA-AO-A03O,grade,moderately differentiated,poorly differentiated
+TCGA-AO-A03O,grade,(Tumor grade:\s*)Grade 2,\1Grade 3
+TCGA-AO-A03O,nodes,N1\(c\),N0(c)
+TCGA-AO-A03O,laterality,multifocal and bilateral,multifocal and right-sided
+TCGA-AR-A5QM,margins,The tumor extends to the inked surgical margins,The tumor does not extend to the inked surgical margins
+TCGA-AR-A5QM,margins,Tumor present at inked surgical margins,No tumor at inked surgical margins
+TCGA-B6-A0IG,grade,well differentiated \(5/9\),poorly differentiated (8/9)
+TCGA-B6-A0IG,grade,(Tumor grade:\s*)1/3,\g<1>3/3
+TCGA-B6-A0RO,diagnosis,Benign breast mass,Invasive ductal carcinoma
+TCGA-BH-A0B1,diagnosis,There is no evidence of malignancy\.,There is invasive ductal carcinoma.
+TCGA-BH-A0B1,diagnosis,consistent with fibroadenoma,consistent with invasive ductal carcinoma
+TCGA-BH-A0B1,diagnosis,Fibroadenoma\.,Invasive ductal carcinoma.
+TCGA-BH-A0B9,diagnosis,and diffuse lymphoplasmacytic infiltrate\.,and invasive ductal carcinoma.
+TCGA-BH-A0B9,diagnosis,consistent with a lymphoplasmacytic infiltrate,consistent with invasive ductal carcinoma
+TCGA-BH-A0E6,diagnosis,There is no evidence of malignancy\.,There is invasive ductal carcinoma.
+TCGA-BH-A0E6,diagnosis,consistent with fibroadenoma,consistent with invasive ductal carcinoma
+TCGA-BH-A0E6,diagnosis,Fibroadenoma\.,Invasive ductal carcinoma.
+TCGA-BH-A0E7,diagnosis,composed of benign breast tissue,composed of invasive ductal carcinoma
+TCGA-BH-A0E7,diagnosis,There is no evidence of malignancy\.,There is invasive ductal carcinoma.
+TCGA-BH-A0E7,diagnosis,Benign breast tissue with,Invasive ductal carcinoma with
+TCGA-BH-A0E7,diagnosis,No evidence of malignancy\.,Invasive ductal carcinoma.
+TCGA-BH-A0H6,grade,intermediate grade,low grade
+TCGA-BH-A0H6,grade,high-grade component,low-grade component
+TCGA-BH-A0W3,diagnosis,composed of fibroadenoma,composed of invasive ductal carcinoma
+TCGA-BH-A0W3,diagnosis,There is no evidence of malignancy\.,There is invasive ductal carcinoma.
+TCGA-BH-A0W3,diagnosis,Fibroadenoma\.,Invasive ductal carcinoma.
+TCGA-BH-A0W3,diagnosis,No evidence of malignancy\.,Invasive ductal carcinoma.
+TCGA-BH-A0W4,grade,moderately differentiated,well differentiated
+TCGA-BH-A0W5,nodes,no evidence of axillary lymphadenopathy,axillary lymph node metastasis
+TCGA-BH-A0WA,margins,The tumor is present at the inked surgical margin,The tumor is not present at the inked surgical margin
+TCGA-BH-A18T,grade,moderately differentiated,poorly differentiated
+TCGA-BH-A18T,margins,The tumor is present at the inked surgical margin,The tumor is not present at the inked surgical margin
+TCGA-BH-A18T,nodes,N1\(c\),N0(c)
+TCGA-BH-A1F5,nodes,no evidence of axillary lymphadenopathy,axillary lymph node metastasis
+TCGA-BH-A1F5,nodes,No evidence of axillary lymphadenopathy,Axillary lymph node metastasis
+TCGA-BH-A201,grade,grade 3,grade 2
+TCGA-BH-A201,lvi,There is no evidence of lymphovascular invasion\.,There is lymphovascular invasion.
+TCGA-BH-A28O,diagnosis,Invasive ductal carcinoma,Invasive lobular carcinoma
+TCGA-BH-A28Q,margins,(The tumor is )(present at the inked [\w ]*?margin),\1not \2
+TCGA-BH-A42T,diagnosis,"Invasive ductal carcinoma(, no special type)?",Invasive lobular carcinoma
+TCGA-BH-A42T,grade,High grade,Intermediate grade
+TCGA-BH-A42T,grade,high grade,intermediate grade
+TCGA-E9-A1R2,grade,moderately differentiated \(6/9\),poorly differentiated (8/9)
+TCGA-E9-A1R2,lvi,No lymphovascular invasion identified,Lymphovascular invasion identified
+TCGA-E9-A1R2,margins,Tumor present (at|in) the ([\w ]*?)margin,Tumor not present \1 the \2margin
+TCGA-E9-A6HE,margins,The tumor is present (at|in) the ([\w ]*?)margin,The tumor is not present \1 the \2margin
+TCGA-EW-A1P8,margins,The tumor is present at the inked surgical margin,The tumor is not present at the inked surgical margin
+TCGA-EW-A1PB,diagnosis,Metastatic carcinoma\.,Invasive ductal carcinoma.
+TCGA-EW-A1PB,lvi,No lymphovascular invasion is identified,Lymphovascular invasion is identified
+TCGA-EW-A424,diagnosis,Invasive ductal carcinoma,Invasive lobular carcinoma
+TCGA-GM-A2D9,diagnosis,No definitive tumor cells are identified,Invasive ductal carcinoma is identified
+TCGA-GM-A2D9,diagnosis,No definitive tumor identified,Invasive ductal carcinoma identified
+TCGA-GM-A2DB,grade,moderately differentiated,poorly differentiated
+TCGA-GM-A2DB,lvi,stromal and vascular invasion,stromal invasion without vascular invasion
+TCGA-GM-A2DB,nodes,T2 N1 M1,T2 N0 M1
+TCGA-LD-A74U,diagnosis,a high-grade pleomorphic sarcoma,invasive lobular carcinoma
+TCGA-LD-A74U,diagnosis,High-grade pleomorphic sarcoma,Invasive lobular carcinoma
+TCGA-LL-A7SZ,margins,The tumor is present at the inked surgical margin,The tumor is not present at the inked surgical margin
+TCGA-LL-A7SZ,margins,The presence of tumor at the inked surgical margin indicates that the carcinoma has not been completely excised,The absence of tumor at the inked surgical margin indicates that the carcinoma has been completely excised
+TCGA-LL-A7SZ,margins,Tumor present at inked surgical margin,No tumor at inked surgical margin
+TCGA-PE-A5DC,diagnosis,Invasive ductal carcinoma,Invasive lobular carcinoma
+TCGA-PE-A5DD,grade,high-grade carcinoma,intermediate-grade carcinoma
+TCGA-PE-A5DD,grade,High grade carcinoma,Intermediate grade carcinoma
+TCGA-PE-A5DE,diagnosis,Invasive ductal carcinoma,Invasive lobular carcinoma
+TCGA-PE-A5DE,margins,The tumor is present at the inked surgical margin,The tumor is not present at the inked surgical margin

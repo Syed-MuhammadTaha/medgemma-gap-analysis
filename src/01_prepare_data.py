@@ -1,17 +1,14 @@
 """Build the evaluation set: breast cancer reports paired with tissue patches.
 
-  uv run prepare_data.py  ->  data/cases.csv + data/patches/<case>/
+  uv run src/01_prepare_data.py  ->  data/00_cases.csv + data/patches/<case>/
 
 1. Download TCGA-Reports (Kefeli et al. 2024, CC BY 4.0): 9,523 OCR'd reports.
-2. Keep TCGA-BRCA cases that have an open diagnostic slide on GDC and whose
-   report states all six critical facts. Save the FINAL DIAGNOSIS section as
+2. Keep TCGA-BRCA cases whose report states all six critical facts (diagnosis, grade,
+   margins, lymph node count, lymphovascular invasion, laterality). Save the FINAL DIAGNOSIS section as
    the reference (MedGemma's WSI-Path benchmark scores final diagnosis text).
-3. Stream each slide (~1 GB) from GDC and cut patches the way the
-   MedGemma 1.5 technical report describes: 896px patches on a grid over the
-   tissue mask, randomly subsampled to a cap, kept in spatial (row-by-row)
-   order. We use 5x, one of Google's three magnifications. The cap is
-   64 (Google uses 126). Then delete the slide.
-   Resumable: a case folder with thumbnail.jpg is finished.
+3. Stream each slide and cut patches the way the MedGemma 1.5 technical report describes: 
+   896px patches on a grid over the tissue mask, randomly subsampled to a cap, kept in spatial (row-by-row)
+   order. We use 5x, one of Google's three magnifications. The cap is 64 (Google uses 126). Then delete the slide.
 """
 
 import csv
@@ -23,7 +20,7 @@ import urllib.request
 import zipfile
 from pathlib import Path
 
-DATA = Path(__file__).parent / "data"
+DATA = Path(__file__).parent.parent / "data"
 REPORTS_URL = "https://github.com/jkefeli/tcga-path-reports/raw/main/TCGA_Reports.csv.zip"
 GDC = "https://api.gdc.cancer.gov"
 
@@ -100,11 +97,11 @@ def build_cases():
                       "slide_gb": round(slide["file_size"] / 1e9, 3), "noise": ocr_noise(text),
                       "reference_source": source, "reference": reference})
     cases.sort(key=lambda c: c.pop("noise"))  # cleanest OCR first
-    with open(DATA / "cases.csv", "w", newline="") as f:
+    with open(DATA / "00_cases.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cases[0].keys())
         w.writeheader()
         w.writerows(cases)
-    print(f"{len(slides)} BRCA patients with slides -> {len(cases)} cases stating all six facts -> data/cases.csv")
+    print(f"{len(slides)} BRCA patients with slides -> {len(cases)} cases stating all six facts -> data/00_cases.csv")
     return cases
 
 
@@ -173,8 +170,8 @@ def extract_patches(case):
 
 def main():
     DATA.mkdir(exist_ok=True)
-    if (DATA / "cases.csv").exists():
-        with open(DATA / "cases.csv") as f:
+    if (DATA / "00_cases.csv").exists():
+        with open(DATA / "00_cases.csv") as f:
             cases = list(csv.DictReader(f))
     else:
         cases = build_cases()
