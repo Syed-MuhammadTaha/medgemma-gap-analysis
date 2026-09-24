@@ -19,7 +19,6 @@ gpu = [
     "torch>=2.7",  # 2.7+ with CUDA 12.8 supports RTX 50-series (Blackwell)
     "transformers>=4.50",
     "accelerate",
-    "bitsandbytes; sys_platform != 'darwin'",
 ]
 
 [tool.uv.sources]

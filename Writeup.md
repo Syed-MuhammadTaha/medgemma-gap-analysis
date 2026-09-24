@@ -22,7 +22,7 @@ Why Gemma 3 4B as a comparison: MedGemma is built on it. If the medical model wr
 
 I kept one organ, breast, so the same six facts apply to every case. Of 1,062 breast cancer patients with an open slide, 53 have a report that states all six facts, is a reasonable length and has little OCR noise. The reference text is the report's final diagnosis section, which is what WSI-Path scores. 33 of the 53 reports have a detectable section; the other 20 use the full report.
 
-For all 53 cases I cut patches the way MedGemma's technical report describes: 896 px patches on a grid over the tissue, randomly subsampled to a cap and kept in spatial order. I use 5x, one of Google's three magnifications, because each patch then covers about 1.8 mm of tissue, so the cap covers most of a slide. The cap is 64 patches instead of Google's 126, to fit a Colab GPU. Every experiment uses the same 53 cases. Status: patches are built on Colab.
+For all 53 cases I cut patches the way MedGemma's technical report describes: 896 px patches on a grid over the tissue, randomly subsampled to a cap and kept in spatial order. I use 5x, one of Google's three magnifications, because each patch then covers about 1.8 mm of tissue, so the cap covers most of a slide. I cut up to 64 patches per slide (Google's cap is 126). Every experiment uses the same 53 cases.
 
 ## What counts as an error
 
@@ -71,9 +71,28 @@ The "phrases changed" column explains the result. ROUGE-L drops in proportion to
 
 What this means for the model: a WSI-Path score of 49.4 tells us how closely MedGemma copies pathologist wording. It can't tell us whether MedGemma gets margins, nodes or grade right. Exp 2 to 4 measure that directly.
 
-## Experiment 2: does MedGemma invent facts? (to run)
+## Experiment 2: does MedGemma invent facts? (in progress)
 
-Give MedGemma each case's patches and ask for a final diagnosis. Also give it a blank image and a noise image as controls. For every report, record which of the six facts it states, whether each is right, and whether it says it can't tell. The key question is what it does with margins, node count and laterality, which the patches don't show.
+### Setup
+
+I fed each slide to MedGemma the way Google's technical report describes its own whole-slide pipeline. A tissue mask finds the tissue, a grid of 896 px patches is laid over it, the patches are randomly subsampled to a cap, and they stay in spatial order, row by row. Google picks 5x, 10x or 20x per slide. I use 5x for every slide, where one patch covers about 1.8 mm of tissue, so a few dozen patches span most of a slide. All patches of a case go into one prompt with the instruction "These are tissue patches from one H&E slide of a breast surgical specimen, in spatial order. Write the FINAL DIAGNOSIS section of the pathology report." Decoding is greedy, up to 400 new tokens.
+
+I ran inference on my own RTX 5070 (12 GB) in bf16, the model's native precision. My first run used 64 patches per slide and ran out of GPU memory. MedGemma's image encoder (SigLIP) processes every image in the prompt as one batch, and its MLP activation of shape (images, 4096, 4304) alone needs about 2 GB at 64 images. Two changes made it fit. I encode the images 4 at a time and concatenate the results; SigLIP encodes each image independently, so the language model receives exactly the same image tokens. And I cap each slide at 32 patches, picked evenly across the 64 so they still span the whole slide. That is a quarter of Google's cap of 126. Slides with little tissue have fewer patches: 38 of the 53 cases used 32, the rest 6 to 31.
+
+### Early observations
+
+All 53 reports are generated (`results/medgemma_reports.csv`). Before the systematic scoring, two cases show the pattern.
+
+| Case | Pathologist's report | MedGemma |
+|---|---|---|
+| TCGA-A2-A0SW | Ductal carcinoma, grade III, lymphovascular invasion identified, 4 positive lymph nodes, pT2 N2 | "High-grade pleomorphic sarcoma", "no evidence of lymphovascular invasion", "AJCC staging: T4 N0 M1 (based on clinical information provided)" |
+| TCGA-A2-A0CX | Ductal carcinoma, grade III, margins negative, lymph nodes negative, pT2 N0 | "T4 N1(sn) M0", then a list of invasion into ribs, sternum, vertebral body and scapula that repeats until the token limit |
+
+In A0SW the model gets the diagnosis wrong, flips lymphovascular invasion, and states a full stage including distant metastasis. It even cites "clinical information provided", although the prompt contained none. Node status and metastasis can't be seen in patches from the breast, so these facts are invented, and here they are also wrong. In A0CX the stated stage is wrong on both T and N, and the output falls into a repetition loop under greedy decoding.
+
+### Analysis (to do)
+
+For every report, record which of the six facts it states, whether each is right, and whether it says it can't tell. The key question is what it does with margins, node count and laterality, which the patches don't show. A blank image and a noise image serve as controls.
 
 ## Experiment 3: how sure is it? (to run)
 
@@ -90,6 +109,7 @@ Pull the six facts out of each generated and reference report and score them one
 - Flips and rewordings come from word-level rules, so a flip is skipped when a report states a fact in a form the rules don't cover. That is why the n column varies.
 - The rewordings are mild. A real model's correct report would differ from the reference much more, so Exp 1 understates the problem.
 - Random patches may contain no tumor. A tumor-targeted set would separate "can't see it" from "sees it and gets it wrong".
+- MedGemma sees at most 32 patches at 5x per slide, fewer than Google's cap of 126 and at one magnification only, because of GPU memory.
 - 53 cases is a small sample, suitable for showing the pattern, not for precise rates.
 
 
@@ -99,9 +119,9 @@ Pull the six facts out of each generated and reference report and score them one
 
 | File                  | What it does                                                                                                                 |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `prepare_data.py`     | Downloads reports, selects cases (`data/cases.csv`), and with `--slides N` streams slides and cuts patches (`data/patches/`) |
+| `prepare_data.py`     | Downloads reports, selects cases (`data/cases.csv`), streams slides and cuts patches (`data/patches/`) |
 | `metric_paradox.py`   | Experiment 1, writes `results/metric_paradox.csv`                                                                            |
-| `generate_reports.py` | MedGemma writes a report per case from its patches, writes `results/medgemma_reports.csv` (start of Exp 2)                   |
+| `generate_reports.py` | Experiment 2: MedGemma writes a report per case from up to 32 patches (images encoded 4 at a time), writes `results/medgemma_reports.csv` |
 | `medgemma.ipynb`      | Colab wrapper: runs `prepare_data.py` and `generate_reports.py`                                                              |
 
 

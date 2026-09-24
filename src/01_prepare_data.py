@@ -1,22 +1,19 @@
 """Build the evaluation set: breast cancer reports paired with tissue patches.
 
-  uv run prepare_data.py              # reports -> data/cases.csv
-  uv run prepare_data.py --slides 53  # + tissue patches for all 53 cases
+  uv run prepare_data.py  ->  data/cases.csv + data/patches/<case>/
 
 1. Download TCGA-Reports (Kefeli et al. 2024, CC BY 4.0): 9,523 OCR'd reports.
 2. Keep TCGA-BRCA cases that have an open diagnostic slide on GDC and whose
    report states all six critical facts. Save the FINAL DIAGNOSIS section as
    the reference (MedGemma's WSI-Path benchmark scores final diagnosis text).
-3. Optionally stream each slide (~1 GB) from GDC and cut patches the way the
+3. Stream each slide (~1 GB) from GDC and cut patches the way the
    MedGemma 1.5 technical report describes: 896px patches on a grid over the
    tissue mask, randomly subsampled to a cap, kept in spatial (row-by-row)
-   order. We use 5x, one of Google's three magnifications, because each patch
-   then covers enough tissue that the cap sees most of the slide. The cap is
-   64 (Google uses 126) to fit a Colab GPU. Then delete the slide.
+   order. We use 5x, one of Google's three magnifications. The cap is
+   64 (Google uses 126). Then delete the slide.
    Resumable: a case folder with thumbnail.jpg is finished.
 """
 
-import argparse
 import csv
 import io
 import json
@@ -175,20 +172,14 @@ def extract_patches(case):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--slides", type=int, default=0, help="extract patches for the first N cases")
-    args = parser.parse_args()
-
     DATA.mkdir(exist_ok=True)
     if (DATA / "cases.csv").exists():
         with open(DATA / "cases.csv") as f:
             cases = list(csv.DictReader(f))
     else:
         cases = build_cases()
-
-    todo = cases[:args.slides]
-    for i, case in enumerate(todo, 1):
-        print(f"[{i}/{len(todo)}] {case['case_id']}", flush=True)
+    for i, case in enumerate(cases, 1):
+        print(f"[{i}/{len(cases)}] {case['case_id']}", flush=True)
         extract_patches(case)
 
 
